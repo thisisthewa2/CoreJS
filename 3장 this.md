@@ -29,5 +29,38 @@ this는 실행 컨텍스트가 생성될 때 결정 된다. 실행 컨텍스트�
 #### 함수 내부에서의 this
 어떤 함수를 함수로서 호출할 경우 this가 지정되지 않음.
 
-#### 메서드의 내부 함수에서의 this
-메서드 내부에서 정의하고 실행한 함수
+#### 생성자 함수 내부에서의 this
+생성자는 구체적인 인스턴스를 만들기 위한 일종의 틀이다. 
+해당 클래스의 공통 속성들이 미리 준비돼 있고, 여기에 구체적인 인스턴스의 개성을 더해 개별 인스턴스를 만들 수 있다.
+
+자바스크립트는 **new**명령어와 함께 함수를 호출하면 해당 함수가 생성자로서 동작한다.
+
+```
+var Cat = function (name, age) {
+    this.bark = '야옹';
+    this.name = name;
+    this.age = age;
+};
+
+var choco = new Cat('초코',7);
+var nabi = new Cat('나비',5);
+
+/*
+결과
+Cat {bark: '야옹', name: 초코, age: 7}
+Cat {bark: '야옹', name: 나비, age: 75
+*/
+```
+## 명시적으로 this를 바인딩하는 방법
+### call 메서드
+Function.prototype.call(thisArg[, arg1[, arg2[, ...]]])
+call 메서드는 메서드의 호출 주체인 함수를 즉시 실행하도록 하는 명령
+이때 call메서드의 첫번째 인자를 this로 바인딩하고, 이후의 인자들을 호출할 함수의 매개변수로 함.
+```
+var func = function (a,b,c) {
+  cosole.log(this, a, b, c);
+}
+
+func(1,2,3); //Window{...},1 2 3
+func.call({x:1}, 4,5,6); // {x:1} 4 5 6
+```
